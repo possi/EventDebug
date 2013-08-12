@@ -1,0 +1,14 @@
+/bin
+
+# Eclipse stuff
+/.project
+/.classpath
+/.settings
+/.buildpath
+/.checkstyle
+
+# maven
+/target
+
+# Mac stuff
+.DS_Store
