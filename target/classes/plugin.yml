@@ -1,0 +1,8 @@
+name: EventDebug
+version: 0.1-SNAPSHOT
+main: de.jaschastarke.bukkit.eventdebug.EventDebug
+depend:
+- LimitedCreative
+commands:
+  ed: {}
+permissions: {}
