@@ -82,7 +82,7 @@
               <!-- plugin.yml -->
               <mainClass>de.jaschastarke.bukkit.eventdebug.EventDebug</mainClass>
               <dependencies>
-                <param>LimitedCreative</param><!-- plib in future? -->
+                <!-- <param>LimitedCreative</param><!- - plib in future? -->
               </dependencies>
               <registeredPermissions>
                 <!-- <param>de.jaschastarke.test.Permissions:CONTAINER</param> -->

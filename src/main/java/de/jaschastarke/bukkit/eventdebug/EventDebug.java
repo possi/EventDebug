@@ -3,7 +3,9 @@ package de.jaschastarke.bukkit.eventdebug;
 import java.lang.reflect.Modifier;
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventException;
@@ -97,6 +99,7 @@ public class EventDebug extends Core {
     class DynamicListener implements Listener {
         public void execute(Event event) {
             if (!config.getQuiet() && !config.getSupressList().contains(event.getEventName())) {
+                Location loc = null;
                 StringBuilder s = new StringBuilder();
                 s.append("Event fired: ");
                 s.append(event.getEventName());
@@ -112,6 +115,7 @@ public class EventDebug extends Core {
                     s.append("\n");
                 }
                 if (event instanceof BlockEvent) {
+                    loc = ((BlockEvent) event).getBlock().getLocation();
                     s.append("  Block: ");
                     s.append(((BlockEvent) event).getBlock().getType().toString());
                     if (((BlockEvent) event).getBlock().getData() != 0) {
@@ -123,6 +127,7 @@ public class EventDebug extends Core {
                     s.append("\n");
                 }
                 if (event instanceof EntityEvent) {
+                    loc = ((EntityEvent) event).getEntity().getLocation();
                     s.append("  Entity: ");
                     s.append(((EntityEvent) event).getEntityType().toString());
                     if (((EntityEvent) event).getEntity() instanceof HumanEntity) {
@@ -137,7 +142,20 @@ public class EventDebug extends Core {
                     s.append("\n");
                 }
                 s.deleteCharAt(s.length() - 1);
-                getLog().info(s.toString());
+                
+                boolean inrange = true;
+                if (loc != null && config.getRangeToPlayer() > 0) {
+                    inrange = false;
+                    for (Player p : getServer().getOnlinePlayers()) {
+                        if (p.getLocation().getWorld().equals(loc.getWorld()) && p.getLocation().distance(loc) <= config.getRangeToPlayer()) {
+                            inrange = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (inrange)
+                    getLog().info(s.toString());
             }
         }
     }

@@ -57,6 +57,11 @@ public class Config extends PluginConfiguration {
         }
         return supress;
     }
+    
+    @IsConfigurationNode(order = 300, name = "playerRange")
+    public int getRangeToPlayer() {
+        return config.getInt("playerRange", 3);
+    }
 
     
     /**
