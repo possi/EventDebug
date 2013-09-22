@@ -4,11 +4,13 @@ import java.lang.reflect.Modifier;
 import java.util.Set;
 
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventException;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.EventExecutor;
@@ -100,9 +102,14 @@ public class EventDebug extends Core {
                 s.append(event.getEventName());
                 s.append("\n");
                 
+                if (event instanceof Cancellable && ((Cancellable) event).isCancelled()) {
+                    s.append("  isCancelled");
+                    s.append("\n");
+                }
                 if (event instanceof PlayerEvent) {
                     s.append("  Player: ");
                     s.append(((PlayerEvent) event).getPlayer().getName());
+                    s.append("\n");
                 }
                 if (event instanceof BlockEvent) {
                     s.append("  Block: ");
@@ -113,6 +120,7 @@ public class EventDebug extends Core {
                     }
                     s.append(" at ");
                     s.append(((BlockEvent) event).getBlock().getLocation().toString());
+                    s.append("\n");
                 }
                 if (event instanceof EntityEvent) {
                     s.append("  Entity: ");
@@ -121,8 +129,14 @@ public class EventDebug extends Core {
                         s.append(" ");
                         s.append(((HumanEntity) ((EntityEvent) event).getEntity()).getName());
                     }
+                    s.append("\n");
                 }
-                
+                if (event instanceof BlockPhysicsEvent) {
+                    s.append("  ChangedType: ");
+                    s.append(((BlockPhysicsEvent) event).getChangedType().toString());
+                    s.append("\n");
+                }
+                s.deleteCharAt(s.length() - 1);
                 getLog().info(s.toString());
             }
         }
