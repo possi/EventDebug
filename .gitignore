@@ -1,11 +1,13 @@
 /bin
 
-# Eclipse stuff
+# IDE stuff
 /.project
 /.classpath
 /.settings
 /.buildpath
 /.checkstyle
+/.idea
+/EventDebug.iml
 
 # maven
 /target

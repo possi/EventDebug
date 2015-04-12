@@ -14,7 +14,6 @@ public class Config extends PluginConfiguration {
         super(plugin);
     }
 
-    
     /**
      * Quiet
      * 
@@ -37,42 +36,62 @@ public class Config extends PluginConfiguration {
      *  - VehicleUpdateEvent
      *  - VehicleBlockCollisionEvent
      *  - BlockPhysicsEvents
-     *  - CreatureSpawnEvent
      *  - ChunkUnloadEvent
+     *  - ChunkLoadEvent
+     *  - PlayerMoveEvent
      */
     @IsConfigurationNode(order = 200, name = "supress")
     public StringList getSupressList() {
         if (supress == null) {
-            if (!config.contains("surpess")) {
-                supress = new StringList(Arrays.asList(new String[]{
-                    "VehicleUpdateEvent",
-                    "VehicleBlockCollisionEvent",
-                    "BlockPhysicsEvents",
-                    "CreatureSpawnEvent",
-                    "ChunkUnloadEvent"
-                }));
+            if (!config.contains("supress")) {
+                supress = new StringList(Arrays.asList(
+                        "VehicleUpdateEvent",
+                        "VehicleBlockCollisionEvent",
+                        "BlockPhysicsEvents",
+                        "ChunkUnloadEvent",
+                        "ChunkLoadEvent",
+                        "PlayerMoveEvent"));
             } else {
                 supress = new StringList(config.getStringList("supress"));
             }
         }
         return supress;
     }
-    
+
+    /**
+     * Filter PlayerRange
+     *
+     * Only shows Events that happens in range of X blocks to an OP. Events that can not be associated with a location
+     * (like module load or such) are always shown.
+     *
+     * default: 3
+     */
     @IsConfigurationNode(order = 300, name = "playerRange")
     public int getRangeToPlayer() {
         return config.getInt("playerRange", 3);
     }
 
+    /**
+     * Short Output
+     *
+     * Only shows one line per Event
+     *
+     * default: false
+     */
+    @IsConfigurationNode(order = 400)
+    public boolean getShort() {
+        return config.getBoolean("short", false);
+    }
     
     /**
      * Debug
      * 
-     * The debug modus spams much details about the plugin to the server-log (console) which can help to solve issues.
+     * The debug modus spams some details about the plugin to the server-log (console) which can help to solve issues.
      * 
-     * default: true
+     * default: false
      */
     @IsConfigurationNode(order = 9999)
     public boolean getDebug() {
-        return config.getBoolean("debug", true);
+        return config.getBoolean("debug", false);
     }
 }
